@@ -1,4 +1,0 @@
-# Controlling the & segment Display using Wifi Module in ESP32
-
-### In this program we use the basic concept of displaying the 7 segment display and combining it through the wifi server such
-### when we connect through the same wifi the esp32 can control the display
