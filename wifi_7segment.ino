@@ -310,69 +310,49 @@ void loop() {
               digitalWrite(23,1);//g              //turns the LED off
             }
 
-            client.println("<!DOCTYPE html><html>");
-            client.println("<head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
-            client.println("<link rel=\"icon\" href=\"data:,\">");
-            // CSS to style the on/off buttons
-            client.println("<style>html { font-family: monospace; display: inline-block; margin: 0px auto; text-align: center;}");
-            client.println(".button { background-color: yellowgreen; border: none; color: white; padding: 16px 40px;");
-            client.println("text-decoration: none; font-size: 32px; margin: 2px; cursor: pointer;}");
-            client.println(".button2 {background-color: gray;}</style></head>");
+          client.println("<!DOCTYPE html>");
+          client.println("<html>");
+          client.println("<head>");
+          client.println("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
+          client.println("<style>");
+          client.println("body { font-family: Arial, sans-serif; margin: 0; padding: 0;}");
+          client.println(".container { text-align: center; margin-top: 50px;}");
+          client.println(".button { background-color: #4CAF50; border: none; color: white; padding: 15px 32px;");
+          client.println("text-align: center; text-decoration: none; display: inline-block; font-size: 16px;");
+          client.println("margin: 4px 2px; cursor: pointer;}");
+          client.println(".button.off { background-color: #f44336; }");
+          client.println("</style>");
+          client.println("</head>");
+          client.println("<body>");
 
-            client.println("<body><h1>ESP32 Web Server</h1>");
-            client.println("<p>Control LED State</p>");
+          client.println("<div class=\"container\">");
+          client.println("<h1>ESP32 Web Server</h1>");
+          client.println("<p>Control LED State</p>");
 
-            if(no0 == "off"){
-              client.println("<p><a href=\"/0/on\"><button class=\"button\">Click to On 0</button></a></p>");
-            }else {
-              client.println("<p><a href=\"/0/off\"><button class=\"button button2\">OFF</button></a></p>");
-            }
-            if(no1 == "off"){
-              client.println("<p><a href=\"/1/on\"><button class=\"button\">Click to On 1</button></a></p>");
-            }else {
-              client.println("<p><a href=\"/1/off\"><button class=\"button button2\">OFF</button></a></p>");
-            }
-            if(no2 == "off"){
-              client.println("<p><a href=\"/2/on\"><button class=\"button\">Click to On 2</button></a></p>");
-            }else {
-              client.println("<p><a href=\"/2/off\"><button class=\"button button2\">OFF</button></a></p>");
-            }
-            if(no3 == "off"){
-              client.println("<p><a href=\"/3/on\"><button class=\"button\">Click to On 3</button></a></p>");
-            }else {
-              client.println("<p><a href=\"/3/off\"><button class=\"button button2\">OFF</button></a></p>");
-            }
-            if(no4 == "off"){
-              client.println("<p><a href=\"/4/on\"><button class=\"button\">Click to On 4</button></a></p>");
-            }else {
-              client.println("<p><a href=\"/4/off\"><button class=\"button button2\">OFF</button></a></p>");
-            }
-            if(no5 == "off"){
-              client.println("<p><a href=\"/5/on\"><button class=\"button\">Click to On 5</button></a></p>");
-            }else {
-              client.println("<p><a href=\"/5/off\"><button class=\"button button2\">OFF</button></a></p>");
-            }
-            if(no6 == "off"){
-              client.println("<p><a href=\"/6/on\"><button class=\"button\">Click to On 6</button></a></p>");
-            }else {
-              client.println("<p><a href=\"/6/off\"><button class=\"button button2\">OFF</button></a></p>");
-            }
-            if(no7 == "off"){
-              client.println("<p><a href=\"/7/on\"><button class=\"button\">Click to On 7</button></a></p>");
-            }else {
-              client.println("<p><a href=\"/7/off\"><button class=\"button button2\">OFF</button></a></p>");
-            }
-            if(no8 == "off"){
-              client.println("<p><a href=\"/8/on\"><button class=\"button\">Click to On 8</button></a></p>");
-            }else {
-              client.println("<p><a href=\"/8/off\"><button class=\"button button2\">OFF</button></a></p>");
-            }
-            if(no9 == "off"){
-              client.println("<p><a href=\"/9/on\"><button class=\"button\">Click to On 9</button></a></p>");
-            }else {
-              client.println("<p><a href=\"/9/off\"><button class=\"button button2\">OFF</button></a></p>");
-            }
-            client.println("</body></html>");
+          // Function to generate button HTML for each LED
+          auto generateButton = [&](int led, const String& state) {
+              client.print("<p><a href=\"/");
+              client.print(led);
+              client.print(state == "off" ? "/on\"" : "/off\"");
+              client.print("><button class=\"button");
+              client.print(state == "off" ? "" : " off");
+              client.print("\">");
+              client.print("Click to ");
+              client.print(state == "off" ? "On" : "Off");
+              client.println(" LED ");
+              client.print(led);
+              client.println("</button></a></p>");
+          };
+
+          // Generate buttons for LEDs 0 to 9
+          for (int i = 0; i < 10; ++i) {
+              generateButton(i, "off"); // Default state is off
+          }
+
+          client.println("</div>");
+          client.println("</body>");
+          client.println("</html>");
+
 
             // The HTTP response ends with another blank line
             client.println();
